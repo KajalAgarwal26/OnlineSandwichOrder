@@ -21,6 +21,7 @@ import com.hcl.sandwich.entity.Items;
 import com.hcl.sandwich.entity.OrderItems;
 import com.hcl.sandwich.entity.Orders;
 import com.hcl.sandwich.exception.DataNotFoundException;
+import com.hcl.sandwich.exception.OrderNotFoundException;
 import com.hcl.sandwich.exception.UserNotFoundException;
 import com.hcl.sandwich.repository.ItemRepository;
 import com.hcl.sandwich.repository.OrderItemRepository;
@@ -80,32 +81,52 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public ResponseViewOrderDto viewOrder(Long orderId) throws DataNotFoundException {
+	public ResponseViewOrderDto viewOrder(Long userId) throws DataNotFoundException {
 
 		ResponseViewOrderDto responseViewOrderDto = new ResponseViewOrderDto();
-		List<OrderItemDetailsDto> orderItemDtoList = new ArrayList<OrderItemDetailsDto>();
+		List<OrderItemDetailsDto> orderDetails= new ArrayList<OrderItemDetailsDto>();	
 
-		if (!Objects.isNull(orderId)) {
-			List<OrderItems> orderItems = orderItemRepository.findByOrderId(orderId);
-			Orders orders = orderRepository.findById(orderId).get();
-			responseViewOrderDto.setOrderDate(orders.getOrderdateTime());
-			responseViewOrderDto.setTotalAmount(orders.getTotalAmount());
-			for (OrderItems orderItem : orderItems) {
-
-				Optional<Items> itemsList = itemRepository.findById(orderItem.getItemId());
-				Items items = itemsList.get();
-				OrderItemDetailsDto orderItemDto = new OrderItemDetailsDto();
-				orderItemDto.setItemId(items.getItemId());
-				orderItemDto.setItemName(items.getItemName());
-				orderItemDto.setPrice(items.getPrice());
-				orderItemDto.setQuantity(orderItem.getQuantity());
-				orderItemDtoList.add(orderItemDto);
-			}
-
+		if (!Objects.isNull(userId)) {
+			
+			Orders orders=orderRepository.findOrderByUserId(userId);
+		List<OrderItems> orderItemList=	orderItemRepository.findByOrderId(orders.getOrderId());
+		 responseViewOrderDto.setOrderDate(orders.getOrderdateTime());
+		 responseViewOrderDto.setTotalAmount(orders.getTotalAmount());
+		  
+			  for( OrderItems orderItem: orderItemList)
+			  {
+				  
+				  OrderItemDetailsDto  orderItemDetailsDto= new OrderItemDetailsDto(); 
+				  orderItemDetailsDto.setItemId(orderItem.getItemId());
+				  Items items=itemRepository.findById(orderItem.getItemId()).get();  
+				  orderItemDetailsDto.setItemName(items.getItemName());
+				  orderItemDetailsDto.setPrice(items.getPrice());
+				  orderItemDetailsDto.setQuantity(orderItem.getQuantity());
+				  orderDetails.add(orderItemDetailsDto);	  
+			  }
+			  
+			  
+						/*
+			 *
+			 * List<OrderItems> orderItems = orderItemRepository.findByUserId(userId);
+			 * 
+			 * for (OrderItems orderItem : orderItems) {
+			 * 
+			 * Optional<Items> itemsList = itemRepository.findById(orderItem.getItemId());
+			 * Items items = itemsList.get(); OrderItemDetailsDto orderItemDto = new
+			 * OrderItemDetailsDto(); orderItemDto.setItemId(items.getItemId());
+			 * orderItemDto.setItemName(items.getItemName());
+			 * orderItemDto.setPrice(items.getPrice());
+			 * orderItemDto.setQuantity(orderItem.getQuantity());
+			 * orderItemDtoList.add(orderItemDto);
+			 * 
+			 * } responseViewOrderDto.setOrderItems(orderItemDtoList);
+			 */
 		} else {
 			throw new DataNotFoundException(LibraryUtil.NO_ITEM_SELECTED);
 		}
-		responseViewOrderDto.setOrderItems(orderItemDtoList);
+		
+		  responseViewOrderDto.setOrderItems(orderDetails);
 		return responseViewOrderDto;
 	}
 	

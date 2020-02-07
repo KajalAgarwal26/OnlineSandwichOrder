@@ -70,6 +70,16 @@ public class GlobalExceptionHandler {
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseDto);
 	}
 
+	
+
+	@ExceptionHandler(OrderNotFoundException.class)
+	public ResponseEntity<ResponseDto> OrderNotFoundException() {
+		ResponseDto responseDto = new ResponseDto();
+		responseDto.setMessage(LibraryUtil.NOT_AVAILABLE);
+		responseDto.setStatusCode(ApplicationConstants.NOTFOUND_CODE);
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseDto);
+	}
+
 	@ExceptionHandler(NoItemsArePresentException.class)
     public ResponseEntity<ErrorResponse> noItemsArePresentException(NoItemsArePresentException ex) {
         

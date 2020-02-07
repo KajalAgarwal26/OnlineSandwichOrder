@@ -26,6 +26,7 @@ public static final String BOOK_ADD_SUCCESS = "Book added successfully";
 	public static final String PENDING = "Pending";
 	
 	public static final String REGISTER_SUCCESS = "Register Successfull";
+	public static final String ORDER_NOT_FOUND ="Order Not Found";
 	
 	public static final String BOOK_LENDED = "Saved Successfully";
 	public static final String PROVIDE_ALL_REQUIRED_FIELDS ="please provide the all required details";

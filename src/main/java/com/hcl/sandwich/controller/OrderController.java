@@ -21,7 +21,7 @@ import com.hcl.sandwich.exception.UserNotFoundException;
 import com.hcl.sandwich.service.OrderService;
 
 @RestController
-@RequestMapping("/Orders")
+@RequestMapping("/orders")
 @CrossOrigin(allowedHeaders = { "*", "*/" }, origins = { "*", "*/" })
 public class OrderController {
 	
