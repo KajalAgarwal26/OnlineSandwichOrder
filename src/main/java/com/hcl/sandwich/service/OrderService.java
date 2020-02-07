@@ -1,5 +1,5 @@
 package com.hcl.sandwich.service;
 
-public interface SandwichService {
+public interface OrderService {
 
 }

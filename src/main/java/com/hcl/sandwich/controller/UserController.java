@@ -1,5 +1,5 @@
 package com.hcl.sandwich.controller;
 
-public class OrderSandwichController {
+public class UserController {
 
 }
