@@ -3,16 +3,16 @@ package com.hcl.sandwich.dto;
 import java.util.List;
 
 public class ResponseViewOrderDto {
-	
-	private Integer statusCode;
 	private List<OrderItemDetailsDto> orderItems;
 	private String orderDate;
 	private double totalAmount;
-	public Integer getStatusCode() {
-		return statusCode;
+	private String message;
+
+	public String getMessage() {
+		return message;
 	}
-	public void setStatusCode(Integer statusCode) {
-		this.statusCode = statusCode;
+	public void setMessage(String message) {
+		this.message = message;
 	}
 	public List<OrderItemDetailsDto> getOrderItems() {
 		return orderItems;

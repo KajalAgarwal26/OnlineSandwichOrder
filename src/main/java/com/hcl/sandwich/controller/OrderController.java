@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.hcl.sandwich.dto.OrderRequestBodyDto;
 import com.hcl.sandwich.dto.ResponseDto;
+import com.hcl.sandwich.dto.ResponseViewOrderDto;
 import com.hcl.sandwich.exception.DataNotFoundException;
 import com.hcl.sandwich.service.OrderService;
 
@@ -27,21 +30,20 @@ public class OrderController {
 	OrderService orderService;
 	
 	@PostMapping("/placeOrder")
-	public ResponseEntity<ResponseDto> placeOrder(@RequestBody OrderRequestBodyDto orderRequestBodyDto) throws DataNotFoundException
+	public ResponseEntity<Void> placeOrder(@RequestBody OrderRequestBodyDto orderRequestBodyDto) throws DataNotFoundException
 	{
-		ResponseDto responseDto	=orderService.placeOrder(orderRequestBodyDto);
-		responseDto.setMessage("Success");
-		responseDto.setStatusCode(200);
-		return new ResponseEntity<>(responseDto,HttpStatus.OK);
+		orderService.placeOrder(orderRequestBodyDto);
+		return new ResponseEntity<>(null,HttpStatus.OK);
 	}
 	
 
-	@PostMapping("/viewOrder")
-	public ResponseEntity<ResponseDto> viewOrder()
+	@GetMapping("/viewOrder/{id}")
+	public ResponseEntity<ResponseViewOrderDto> viewOrder(@PathVariable("id") Long id) throws DataNotFoundException
 	{
 			
-		
-		return null;
+		ResponseViewOrderDto responseViewOrderDto=orderService.viewOrder(id);
+		responseViewOrderDto.setMessage("Success");
+		return new ResponseEntity<>(responseViewOrderDto,HttpStatus.OK);
 	}
 	
 	
