@@ -1,17 +1,17 @@
 package com.hcl.sandwich.exception;
 
-
 import org.springframework.http.HttpStatus;
-
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.hcl.sandwich.dto.ApiExceptionDto;
+import com.hcl.sandwich.dto.ResponseDto;
 import com.hcl.sandwich.util.ApiConstant;
-
-
+import com.hcl.sandwich.util.ApplicationConstants;
+import com.hcl.sandwich.util.LibraryUtil;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -58,19 +58,12 @@ public class GlobalExceptionHandler {
 		return new ApiExceptionDto(ApiConstant.NO_ELEMENT_FOUND, defaultMessage);
 	}
 
-	
+	@ExceptionHandler(DataNotFoundException.class)
+	public ResponseEntity<ResponseDto> DataNotFoundException() {
+		ResponseDto responseDto = new ResponseDto();
+		responseDto.setMessage(LibraryUtil.NO_ITEM_SELECTED);
+		responseDto.setStatusCode(ApplicationConstants.NOTFOUND_CODE);
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseDto);
+	}
 
-
-	/*
-	 * @ExceptionHandler(NoSeatAvaliableException.class) public
-	 * ResponseEntity<ResponseDto> NoSeatAvaliableException() { ResponseDto
-	 * responseDto = new ResponseDto();
-	 * responseDto.setMessage(LibraryUtil.NO_SEAT_AVAILABLE);
-	 * responseDto.setStatusCode(ApplicationConstants.NOTFOUND_CODE); return
-	 * ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseDto); }
-	 */
-
-
-
-	
 }

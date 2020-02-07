@@ -15,7 +15,7 @@ public class Orders {
 	private Long orderId;
 	private String orderdateTime;
 	private String status;
-	private String totalAmount;
+	private Double totalAmount;
 	private Long userId;
 	public Long getOrderId() {
 		return orderId;
@@ -35,10 +35,10 @@ public class Orders {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	public String getTotalAmount() {
+	public Double getTotalAmount() {
 		return totalAmount;
 	}
-	public void setTotalAmount(String totalAmount) {
+	public void setTotalAmount(Double totalAmount) {
 		this.totalAmount = totalAmount;
 	}
 	public Long getUserId() {
@@ -99,7 +99,7 @@ public class Orders {
 		return "Order [orderId=" + orderId + ", orderdateTime=" + orderdateTime + ", status=" + status
 				+ ", totalAmount=" + totalAmount + ", userId=" + userId + "]";
 	}
-	public Orders(Long orderId, String orderdateTime, String status, String totalAmount, Long userId) {
+	public Orders(Long orderId, String orderdateTime, String status, Double totalAmount, Long userId) {
 		super();
 		this.orderId = orderId;
 		this.orderdateTime = orderdateTime;

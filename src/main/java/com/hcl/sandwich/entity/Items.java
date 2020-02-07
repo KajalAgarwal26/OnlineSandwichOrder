@@ -15,7 +15,7 @@ public class Items {
 	private Long itemId;
 	private String itemName;
 	private String categery;
-	private String price;
+	private Double price;
 	private String imageUrl ;
 	public Long getItemId() {
 		return itemId;
@@ -35,10 +35,10 @@ public class Items {
 	public void setCategery(String categery) {
 		this.categery = categery;
 	}
-	public String getPrice() {
+	public Double getPrice() {
 		return price;
 	}
-	public void setPrice(String price) {
+	public void setPrice(Double price) {
 		this.price = price;
 	}
 	public String getImageUrl() {
@@ -99,7 +99,7 @@ public class Items {
 		return "Items [itemId=" + itemId + ", itemName=" + itemName + ", categery=" + categery + ", price=" + price
 				+ ", imageUrl=" + imageUrl + "]";
 	}
-	public Items(Long itemId, String itemName, String categery, String price, String imageUrl) {
+	public Items(Long itemId, String itemName, String categery, Double price, String imageUrl) {
 		super();
 		this.itemId = itemId;
 		this.itemName = itemName;
