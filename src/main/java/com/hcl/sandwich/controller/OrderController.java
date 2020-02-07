@@ -21,7 +21,7 @@ import com.hcl.sandwich.exception.UserNotFoundException;
 import com.hcl.sandwich.service.OrderService;
 
 @RestController
-@RequestMapping("/Orders")
+@RequestMapping("/orders")
 @CrossOrigin(allowedHeaders = { "*", "*/" }, origins = { "*", "*/" })
 public class OrderController {
 	
@@ -46,7 +46,7 @@ public class OrderController {
 		return new ResponseEntity<>(responseViewOrderDto,HttpStatus.OK);
 	}
 	
-	@GetMapping(path = "/{userId}")
+	@GetMapping("/{userId}")
 	public ResponseEntity<List<Items>> getUserOrderPrefrenceDetails(@PathVariable("userId") Long userId) throws UserNotFoundException {
 		List<Items> orderItems = orderService.getUserOrderPrefrenceDetails(userId);
 		return ResponseEntity.ok().body(orderItems);
