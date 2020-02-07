@@ -7,8 +7,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "order")
-public class Order {
+@Table(name = "orders")
+public class Orders {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -66,7 +66,7 @@ public class Order {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Order other = (Order) obj;
+		Orders other = (Orders) obj;
 		if (orderId == null) {
 			if (other.orderId != null)
 				return false;
@@ -99,7 +99,7 @@ public class Order {
 		return "Order [orderId=" + orderId + ", orderdateTime=" + orderdateTime + ", status=" + status
 				+ ", totalAmount=" + totalAmount + ", userId=" + userId + "]";
 	}
-	public Order(Long orderId, String orderdateTime, String status, String totalAmount, Long userId) {
+	public Orders(Long orderId, String orderdateTime, String status, String totalAmount, Long userId) {
 		super();
 		this.orderId = orderId;
 		this.orderdateTime = orderdateTime;
@@ -107,7 +107,7 @@ public class Order {
 		this.totalAmount = totalAmount;
 		this.userId = userId;
 	}
-	public Order() {
+	public Orders() {
 		super();
 	}
 	

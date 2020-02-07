@@ -1,5 +1,8 @@
 package com.hcl.sandwich.service;
 
-public class OrderServiceImpl {
+import org.springframework.stereotype.Service;
+
+@Service
+public class OrderServiceImpl implements OrderService{
 
 }
