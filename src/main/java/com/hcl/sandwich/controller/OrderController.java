@@ -46,7 +46,7 @@ public class OrderController {
 		return new ResponseEntity<>(responseViewOrderDto,HttpStatus.OK);
 	}
 	
-	@GetMapping(path = "/{userId}")
+	@GetMapping("/pref/{userId}")
 	public ResponseEntity<List<Items>> getUserOrderPrefrenceDetails(@PathVariable("userId") Long userId) throws UserNotFoundException {
 		List<Items> orderItems = orderService.getUserOrderPrefrenceDetails(userId);
 		return ResponseEntity.ok().body(orderItems);
