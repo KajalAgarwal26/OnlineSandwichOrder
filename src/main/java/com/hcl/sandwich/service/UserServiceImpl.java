@@ -10,8 +10,10 @@ import org.springframework.http.HttpStatus;
 import com.hcl.sandwich.dto.LoginDto;
 import com.hcl.sandwich.dto.LoginResponseDto;
 import com.hcl.sandwich.entity.Users;
+import com.hcl.sandwich.exception.UserNotFoundException;
 import com.hcl.sandwich.repository.UserRepository;
 import com.hcl.sandwich.util.LibraryUtil;
+import com.hcl.sandwich.util.SANDUTIL;
 
 
 @Service
@@ -21,7 +23,7 @@ public class UserServiceImpl implements UserService {
 	UserRepository userRepository;
 
 	@Override
-	public com.hcl.sandwich.dto.LoginResponseDto usersLogin(LoginDto userDto) {
+	public LoginResponseDto usersLogin(LoginDto userDto) {
 		List<Users> users = userRepository.findAll();
 		
 		LoginResponseDto responseDto = new LoginResponseDto();
@@ -33,11 +35,11 @@ public class UserServiceImpl implements UserService {
 				responseDto.setUserId(user.getUserId());
 				return responseDto;
 			}
+			else {
+				throw new UserNotFoundException(SANDUTIL.USER_NOT_FOUND);
+			}
 		}
-		responseDto.setMessage(LibraryUtil.INVALID_LOGIN);
-		responseDto.setStatusCode(HttpStatus.BAD_REQUEST.value());
 		return responseDto;
 	}
-
 
 }

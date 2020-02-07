@@ -11,5 +11,4 @@ import com.hcl.sandwich.entity.OrderItems;
 public interface OrderItemRepository extends JpaRepository<OrderItems, Long>{
 
 	List<OrderItems> findByOrderId(Long orderId);
-
 }

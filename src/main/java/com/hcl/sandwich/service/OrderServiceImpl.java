@@ -3,6 +3,9 @@ package com.hcl.sandwich.service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -18,14 +21,20 @@ import com.hcl.sandwich.entity.Items;
 import com.hcl.sandwich.entity.OrderItems;
 import com.hcl.sandwich.entity.Orders;
 import com.hcl.sandwich.exception.DataNotFoundException;
+import com.hcl.sandwich.exception.UserNotFoundException;
 import com.hcl.sandwich.repository.ItemRepository;
 import com.hcl.sandwich.repository.OrderItemRepository;
 import com.hcl.sandwich.repository.OrderRepository;
 import com.hcl.sandwich.util.LibraryUtil;
+import com.hcl.sandwich.util.SANDUTIL;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Service
 public class OrderServiceImpl implements OrderService {
 
+	Logger logger = LoggerFactory.getLogger(OrderServiceImpl.class);
+	
 	@Autowired
 	ItemRepository itemRepository;
 
@@ -98,6 +107,49 @@ public class OrderServiceImpl implements OrderService {
 		}
 		responseViewOrderDto.setOrderItems(orderItemDtoList);
 		return responseViewOrderDto;
+	}
+	
+	
+	/**
+	 * Method to get user order preference based on particular userId.
+	 * 
+	 * @throws UserNotFoundException 
+	 */
+	@Override
+	public List<Items> getUserOrderPrefrenceDetails(Long userId) throws UserNotFoundException {
+
+		logger.debug("Inside OrderServiceImpl :: getUserOrderPrefrenceDetails");
+		
+		if(userId == null) {
+			throw new UserNotFoundException(SANDUTIL.USER_NOT_FOUND);
+		}			
+		
+		List<Items> listItems = new ArrayList<Items>();
+		Map<Long, Integer> map = new HashMap<Long, Integer>();
+		
+		// fetch all the orders for userId.
+		List<Orders> orderList = orderRepository.findByUserId(userId);
+		for(Orders order : orderList) {			
+			List<OrderItems> orderItemsList = orderItemRepository.findByOrderId(order.getOrderId());
+			for(OrderItems orderItems : orderItemsList) {				
+				if(!map.containsKey(orderItems.getItemId())) {					
+					map.put(orderItems.getItemId(), 1);
+				}else {					
+					map.put(orderItems.getItemId(), map.get(orderItems.getItemId()) + 1);
+				}
+			}			
+		}
+				
+        //populate item list.
+        for (Map.Entry<Long, Integer> en : map.entrySet()) {         	
+        	if(en.getValue() >= 3) {
+        		java.util.Optional<Items> item = itemRepository.findById(en.getKey());
+            	if(item.isPresent()) {
+            		listItems.add(item.get());
+            	} 
+        	}        	
+        }          
+		return listItems;
 	}
 
 }
